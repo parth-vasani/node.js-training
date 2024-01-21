@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn" onclick="">Click</button>
+    
+    <script>
+      var b=document.getElementById("btn")
+      console.log(b)
+
+      b.addEventListener("click",function(){
+        function f1(){
+          console.log(this.innerText);
+        }
+        f1.call(this);
+
+        const f2=()=>{
+          console.log("From arrow function :",this.innerText)
+        }
+        f2();
+      
+      })
+    </script>
+  </body>
+</html>
