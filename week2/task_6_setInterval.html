@@ -1,0 +1,22 @@
+<head>
+    <title>Document</title>
+    <script>
+        let interval;
+
+        function startFn(){
+            interval=setInterval(()=>{
+                console.log("Hello")
+            },1000);
+        }
+
+        function endFn(){
+            if(interval)
+                clearInterval(interval);
+        }
+    </script>
+</head>
+<body>
+    <button class="startBtn" onclick="startFn();">Start</button>
+    <button class="endBtn" onclick="endFn();">End</button>
+</body>
+</html>

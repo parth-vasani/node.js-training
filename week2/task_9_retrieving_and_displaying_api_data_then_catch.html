@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Document</title>
+    <script>
+        let url="https://jsonplaceholder.typicode.com/posts";
+        
+        function fetchData(){
+            let textBox=document.querySelector(".data");
+
+            fetch(url).then((response)=>{
+                if(!response.ok){
+                    throw new Error("Failed to fetch")
+                }
+
+                return response.json();
+            }).then((response)=>{
+                let data="<table border=1  >"
+                for(let post of response){
+                    data+=`<tr><td>${post.id}</td><td>${post.title}</td><td>${post.body}</td></tr>`
+                }
+                data+="</table>"
+    
+                textBox.innerHTML=data;
+
+            }).catch((err)=>{
+                console.log(err)
+                textBox.innerText=`Error while retrieving data : ${err.message}`
+            })
+
+        }
+
+    </script>
+</head>
+<body>
+    <button class="btn" onclick="fetchData();">Get Data</button>
+    <p class="data"></p>
+</body>
+</html>
