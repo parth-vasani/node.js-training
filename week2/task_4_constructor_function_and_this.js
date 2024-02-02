@@ -5,7 +5,7 @@ function Car(name, brand, year) {
 
   this.displayInfo= function() {
     console.log(
-      `This is ${name} car from ${brand} and manufactured in the year ${year}`
+      `This is ${this.name} car from ${this.brand} and manufactured in the year ${this.year}`
     );
   };
 }
