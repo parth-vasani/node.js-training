@@ -4,14 +4,18 @@
         let interval;
 
         function startFn(){
+            if(interval)
+                return;
             interval=setInterval(()=>{
                 console.log("Hello")
             },1000);
         }
 
         function endFn(){
-            if(interval)
+            if(interval){
                 clearInterval(interval);
+                interval=undefined;
+            }
         }
     </script>
 </head>
