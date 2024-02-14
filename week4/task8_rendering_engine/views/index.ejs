@@ -1,0 +1,165 @@
+<html>
+  <head>
+    <title>DoTask</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+
+      body {
+        /* min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center; */
+
+        background-color: rgb(70, 70, 70);
+      }
+
+      .box {
+        /* background-color: aqua; */
+        max-width: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+
+        margin: 0 auto;
+        margin-top: 100px;
+        padding: 10px;
+      }
+
+      .inputRow {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+
+        background-color: rgb(222, 205, 238);
+        padding: 10px;
+
+        border: 1px solid rgb(222, 205, 238);
+        border-radius: 10px;
+      }
+      .inputRow #inputBox {
+        width: 100%;
+        padding: 10px 15px;
+        outline: none;
+
+        border: 1px solid gray;
+        border-bottom-left-radius: 10px;
+        border-top-left-radius: 10px;
+      }
+      .inputRow #addBtn {
+        padding: 10px 20px;
+
+        border: 1px solid gray;
+        border-bottom-right-radius: 10px;
+        border-top-right-radius: 10px;
+
+        outline: none;
+        cursor: pointer;
+      }
+
+      .listBox {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .listBox ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        padding: 12px;
+
+        background-color: beige;
+
+        border: 1px solid rgb(215, 215, 203);
+        border-radius: 10px;
+      }
+      .listBox ul li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 10px;
+
+        background-color: bisque;
+
+        border-radius: 5px;
+      }
+      .listBox ul li button {
+        padding: 3px 5px;
+
+        border: 1px solid black;
+        border-radius: 50%;
+
+        cursor: pointer;
+      }
+    </style>
+
+    <script>
+      function addTask() {
+        console.log("H");
+
+        let taskList = document.querySelector(".taskList");
+        let text = document.querySelector("#inputBox").value;
+        if (!text) return;
+
+        let li = document.createElement("li");
+        let p = document.createElement("p");
+        let btn = document.createElement("button");
+
+        li.classList.add("taskItem");
+
+        p.innerText = text;
+
+        btn.innerText = "X";
+        btn.classList.add("removeBtn");
+        btn.addEventListener("click", removeTask);
+
+        li.appendChild(p);
+        li.appendChild(btn);
+
+        taskList.appendChild(li);
+
+        document.querySelector("#inputBox").value = "";
+      }
+
+      function removeTask(e) {
+        let taskItem = e.target.parentNode;
+        taskItem.parentNode.removeChild(taskItem);
+      }
+    </script>
+  </head>
+  <body>
+    <div class="box">
+      <div class="inputRow">
+        <input type="text" name="text" id="inputBox" />
+        <input type="button" value="Add" id="addBtn" onclick="addTask();" />
+      </div>
+      <div class="listBox">
+        <ul class="taskList">
+          <!-- <li class="taskItem">
+            <p>Task 1</p>
+            <button class="removeBtn">X</button>
+          </li>
+          <li class="taskItem">
+            <p>Task 1</p>
+            <button class="removeBtn">X</button>
+          </li>
+          <li class="taskItem">
+            <p>Task 1</p>
+            <button class="removeBtn">X</button>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
