@@ -1,84 +1,96 @@
-const fs=require('fs')
+const fs = require("fs");
 
-function writeUserDataToFile(data){
-    fs.writeFile(__dirname+'/users.json',JSON.stringify(data),(err)=>{
-        if(err)
-            throw err;
-
-    })
+function writeUserDataToFile(data) {
+  fs.writeFile(__dirname + "/users.json", JSON.stringify(data), (err) => {
+    if (err) throw err;
+  });
 }
 
-
-const getAllUsers=(req,res)=>{
-    res.json(req.users);
+function transformData(data) {
+  return data.map((user) => {
+    return {
+      type: "users",
+      id: user.id,
+      attributes: {
+        name: user.name,
+        age: user.age,
+      },
+    };
+  });
 }
 
-const getAUser=(req,res)=>{
-    let usersFound=req.users.filter((user)=>user.id==req.params.id);
+const getAllUsers = (req, res) => {    
+    let data = transformData(req.users);
+    res.json({data});
+};
 
-    if(usersFound.length===0){
-        throw new Error("User not found.")
-    }
+const getAUser = (req, res) => {
+  let usersFound = req.users.filter((user) => user.id == req.params.id);
 
-    res.status(200).json(usersFound);
-}
+  if (usersFound.length === 0) {
+    throw new Error("User not found.");
+  }
 
-const addUsers=(req,res)=>{
-    console.log(req.setUsers)
-    const id=Date.now().toString();
+  let data=transformData(usersFound)
 
-    let {name,age}=req.body;
-    if(!name || !age){
-        throw new Error("Missing some attributes for user data.")
-    }
-    
-    req.users.push({id,name,age});
-    req.setUsers(req.users);
+  res.status(200).json({data});
+};
 
-    writeUserDataToFile(req.users);
+const addUsers = (req, res) => {
+  console.log(req.setUsers);
+  const id = Date.now().toString();
 
-    res.status(200).json({message:"User added."});
+  let { name, age } = req.body;
+  if (!name || age === undefined) {
+    throw new Error("Missing some attributes for user data.");
+  } else if (age <= 0) {
+    throw new Error("Invalid value of age.");
+  }
 
+  req.users.push({ id, name, age });
+  req.setUsers(req.users);
 
-}
+  writeUserDataToFile(req.users);
 
-const updateUsers=(req,res)=>{
-    const id=req.params.id;
-    let {name:newName,age:newAge}=req.body;
+  res.status(200).json({ message: "User added." });
+};
 
-    let updatedUser=req.users.filter((user)=>user.id===id);
-    if(updatedUser.length===0){
-        throw new Error("User not found.");
-    }
+const updateUsers = (req, res) => {
+  const id = req.params.id;
+  let { name: newName, age: newAge } = req.body;
 
-    if(newName){
-        updatedUser[0].name=newName;
-    }
-    if(newAge){
-        updatedUser[0].age=newAge;
-    }
+  let updatedUser = req.users.filter((user) => user.id === id);
+  if (updatedUser.length === 0) {
+    throw new Error("User not found.");
+  }
 
-    req.setUsers(req.users);
-    writeUserDataToFile(req.users)
+  if (newName) {
+    updatedUser[0].name = newName;
+  }
+  if (newAge) {
+    updatedUser[0].age = newAge;
+  }
 
-    res.status(200).json({message:"User updated."})
-}
+  req.setUsers(req.users);
+  writeUserDataToFile(req.users);
 
-const deleteUsers=(req,res)=>{
-    const id=req.params.id;
+  res.status(200).json({ message: "User updated." });
+};
 
-    let updatedUsers=req.users.filter((user)=>user.id!==id);
-    if(updatedUsers.length===req.users.length){
-        throw new Error("User not found.");
-    }
+const deleteUsers = (req, res) => {
+  const id = req.params.id;
 
-    req.users=updatedUsers;
-    req.setUsers(req.users);
+  let updatedUsers = req.users.filter((user) => user.id !== id);
+  if (updatedUsers.length === req.users.length) {
+    throw new Error("User not found.");
+  }
 
-    writeUserDataToFile(req.users)
-    
-    res.status(200).json({message:"User deleted."});
-}
+  req.users = updatedUsers;
+  req.setUsers(req.users);
 
+  writeUserDataToFile(req.users);
 
-module.exports={getAllUsers,getAUser,addUsers,updateUsers,deleteUsers};
+  res.status(200).json({ message: "User deleted." });
+};
+
+module.exports = { getAllUsers, getAUser, addUsers, updateUsers, deleteUsers };

@@ -8,6 +8,7 @@ const {
 } = require("./controllers");
 const { handleAllErrors, readUserData } = require("./middlewares");
 
+
 const app=express();
 
 app.use(express.json());
