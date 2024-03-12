@@ -44,8 +44,8 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
 
-    await queryInterface.bulkDelete('Orders',null,{})
     await queryInterface.bulkDelete('OrderProducts',null,{})
-    
+    await queryInterface.bulkDelete('Orders',null,{})
+
   }
 };
